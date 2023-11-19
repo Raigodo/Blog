@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Blog.Domain.Entities.Post.Vo;
+using Blog.Domain.Entities.User.Vo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +10,16 @@ namespace Blog.Domain.Entities.Participant;
 
 public class ParticipantEntity
 {
-    private ParticipantEntity(Guid userId, Guid postId)
+    private ParticipantEntity(UserId userId, PostId postId)
     {
         UserId = userId;
         PostId = postId;
     }
-    public Guid UserId { get; set; }
-    public Guid PostId { get; set; }
+    public UserId UserId { get; private init; }
+    public PostId PostId { get; private init; }
     public bool ReceiveNotifications { get; set; }
 
-    public ParticipantEntity Create(Guid userId, Guid postId)
+    public static ParticipantEntity Create(UserId userId, PostId postId)
     {
         var participant = new ParticipantEntity(userId, postId)
         {

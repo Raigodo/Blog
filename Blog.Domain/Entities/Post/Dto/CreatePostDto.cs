@@ -9,6 +9,6 @@ namespace Blog.Domain.Entities.Post.Dto;
 
 public record CreatePostDto
 {
-    required public string Title { get; set; }
-    required public string Content { get; set; }
+    public string Title { get; set; } = "";
+    public string Content { get; set; } = "";
 }

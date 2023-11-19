@@ -6,12 +6,4 @@ using System.Threading.Tasks;
 
 namespace Blog.Domain.Entities.Comment.Vo;
 
-public record CommentId
-{
-    public CommentId(Guid value)
-    {
-        Value = value;
-    }
-
-    public Guid Value { get; private init; }
-}
+public record CommentId(Guid Value);

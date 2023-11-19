@@ -11,24 +11,41 @@ namespace Blog.Domain.Entities.Comment;
 
 public sealed class CommentEntity
 {
-    public CommentEntity(
-        CommentId id,
+    private CommentEntity(
+        CommentId commentId,
         PostId postId,
         UserId userId,
         string content)
     {
-        Id = id;
+        CommentId = commentId;
         PostId = postId;
         UserId = userId;
         Content = content;
-        CreatedAt = DateTime.UtcNow;
-        LastEditedAt = DateTime.UtcNow;
     }
 
-    public CommentId Id { get; private init; }
-    public UserId UserId { get; set; }
-    public PostId PostId { get; set; }
-    public string Content { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime LastEditedAt { get; set; }
+    public CommentId CommentId { get; private init; }
+    public UserId UserId { get; private set; }
+    public PostId PostId { get; private set; }
+    public string Content { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime LastEditedAt { get; private set; }
+
+    public static CommentEntity Create(
+        PostId postId,
+        UserId userId,
+        string content)
+    {
+        var comment = new CommentEntity(new CommentId(Guid.NewGuid()), postId, userId, content)
+        {
+            CreatedAt = DateTime.UtcNow,
+            LastEditedAt = DateTime.UtcNow,
+        };
+        return comment;
+    }
+
+    public void Edit(string editedContent)
+    {
+        Content = editedContent;
+        LastEditedAt = DateTime.UtcNow;
+    }
 }

@@ -10,16 +10,11 @@ namespace Blog.Domain.Entities.User;
 
 public class UserEntity : IdentityUser<UserId>
 {
-    public UserEntity(
-        UserId id,
-        string nickname,
-        string email)
+    private UserEntity()
     {
-        Id = id;
+        Id = new UserId(Guid.NewGuid());
         SecurityStamp = Guid.NewGuid().ToString();
-        Nickname = nickname;
-        Email = email;
     }
 
-    public string Nickname { get; set; }
+    public string Nickname { get; set; } = $"User-{ Guid.NewGuid().ToString().Substring(0, 8) }";
 }

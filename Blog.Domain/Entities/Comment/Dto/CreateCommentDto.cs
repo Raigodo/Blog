@@ -9,6 +9,6 @@ namespace Blog.Domain.Entities.Comment.Dto;
 
 public record CreateCommentDto
 {
-    required public string PostId { get; set; }
-    required public string Content { get; set; }
+    public string PostId { get; set; } = "";
+    public string Content { get; set; } = "";
 }

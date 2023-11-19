@@ -6,12 +6,4 @@ using System.Threading.Tasks;
 
 namespace Blog.Domain.Entities.Post.Vo;
 
-public record PostId
-{
-    public PostId(Guid value)
-    {
-        Value = value;
-    }
-
-    public Guid Value { get; private init; }
-}
+public record PostId(Guid Value);

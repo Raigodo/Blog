@@ -11,26 +11,59 @@ namespace Blog.Domain.Entities.Post;
 
 public sealed class PostEntity
 {
-    public PostEntity(
-        PostId id,
+    private PostEntity(
+        PostId postId,
         string title,
         string content,
         UserId creatorId)
     {
-        Id = id;
+        PostId = postId;
         Title = title;
         Content = content;
         CreatorId = creatorId;
-        CreatedAt = DateTime.UtcNow;
-        LastEditedAt = DateTime.UtcNow;
-        Comments = new();
     }
 
-    public PostId Id { get; private init; }
-    public string Title { get; set; }
-    public string Content { get; set; }
-    public UserId CreatorId { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime LastEditedAt { get; set; }
-    public List<CommentEntity> Comments { get; private set; }
+    public PostId PostId { get; private init; }
+    public string Title { get; private set; }
+    public string Content { get; private set; }
+    public UserId CreatorId { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime LastEditedAt { get; private set; }
+    public List<CommentEntity> _comments { get; private set; } = new();
+    public IReadOnlyList<CommentEntity> Comments { get => _comments; }
+
+    public static PostEntity Create(
+        string title,
+        string content,
+        UserId creatorId)
+    {
+        var post = new PostEntity(
+            new PostId(Guid.NewGuid()),
+            title,
+            content,
+            creatorId)
+        {
+            CreatedAt = DateTime.UtcNow,
+            LastEditedAt = DateTime.UtcNow,
+        };
+        return post;
+    }
+
+    public void Rename(string newTitle)
+    {
+        Title = newTitle;
+        LastEditedAt = DateTime.UtcNow;
+    }
+
+    public void Edit(string editedContent)
+    {
+        Content = editedContent;
+        LastEditedAt = DateTime.UtcNow;
+    }
+
+    public void AddComment(UserId commentator, string content)
+    {
+        var comment = CommentEntity.Create(PostId, commentator, content);
+        _comments.Add(comment);
+    }
 }

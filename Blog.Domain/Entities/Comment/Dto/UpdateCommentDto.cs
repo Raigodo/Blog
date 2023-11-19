@@ -9,7 +9,7 @@ namespace Blog.Domain.Entities.Comment.Dto;
 
 public record UpdateCommentDto
 {
-    required public string CommentId { get; set; }
-    required public string PostId { get; set; }
-    required public string Content { get; set; }
+    public string CommentId { get; set; } = "";
+    public string PostId { get; set; } = "";
+    public string Content { get; set; } = "";
 }
