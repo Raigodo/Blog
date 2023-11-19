@@ -1,5 +1,4 @@
 ﻿using Blog.Application.Validators.Extensions;
-using Blog.Domain.Contracts.Repositories;
 using Blog.Domain.Entities.Post.Dto;
 using FluentValidation;
 
@@ -7,8 +6,7 @@ namespace Blog.Application.Validators.Post;
 
 public class UpdatePostDtoValidator : AbstractValidator<UpdatePostDto>
 {
-    public UpdatePostDtoValidator(
-        IPostRepository postRepository)
+    public UpdatePostDtoValidator()
     {
         RuleFor(dto => dto.PostId)
             .NotEmpty().WithMessage("Post id was not speciffied")

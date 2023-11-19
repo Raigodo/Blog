@@ -3,7 +3,7 @@ using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Domain.Entities.Participant;
 
-public class ParticipantEntity
+public sealed class ParticipantEntity
 {
     private ParticipantEntity(UserId userId, PostId postId)
     {

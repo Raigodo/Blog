@@ -9,17 +9,17 @@ public sealed class CommentEntity
     private CommentEntity(
         CommentId commentId,
         PostId postId,
-        UserId userId,
+        UserId creatorId,
         string content)
     {
         CommentId = commentId;
         PostId = postId;
-        UserId = userId;
+        CreatorId = creatorId;
         Content = content;
     }
 
     public CommentId CommentId { get; private init; }
-    public UserId UserId { get; private set; }
+    public UserId CreatorId { get; private set; }
     public PostId PostId { get; private set; }
     public string Content { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -27,10 +27,10 @@ public sealed class CommentEntity
 
     public static CommentEntity Create(
         PostId postId,
-        UserId userId,
+        UserId creatorId,
         string content)
     {
-        var comment = new CommentEntity(new CommentId(Guid.NewGuid()), postId, userId, content)
+        var comment = new CommentEntity(new CommentId(Guid.NewGuid()), postId, creatorId, content)
         {
             CreatedAt = DateTime.UtcNow,
             LastEditedAt = DateTime.UtcNow,
