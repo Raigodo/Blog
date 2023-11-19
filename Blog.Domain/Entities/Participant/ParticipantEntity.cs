@@ -1,10 +1,5 @@
 ﻿using Blog.Domain.Entities.Post.Vo;
 using Blog.Domain.Entities.User.Vo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Domain.Entities.Participant;
 
