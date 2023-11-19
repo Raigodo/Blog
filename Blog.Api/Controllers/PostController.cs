@@ -11,12 +11,19 @@ namespace Blog.Api.Controllers
     [Route("[controller]")]
     public class PostController : ControllerBase
     {
+        public PostController(IPostRepository postRepository)
+        {
+            _postRepository = postRepository;
+        }
+
+        private readonly IPostRepository _postRepository;
+
 
         [HttpGet("/test")]
         public IActionResult Foo(
             [FromServices] IValidator<CreatePostDto> postValidator)
         {
-            return Ok("it works");
+            return Ok("success");
         }
     }
 }
