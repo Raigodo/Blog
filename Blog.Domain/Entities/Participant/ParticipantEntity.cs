@@ -1,25 +1,24 @@
-﻿using Blog.Domain.Entities.Post.Vo;
+﻿using Blog.Domain.Base;
+using Blog.Domain.Entities.Post.Vo;
 using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Domain.Entities.Participant;
 
-public sealed class ParticipantEntity
+public sealed class ParticipantEntity : BaseEntity<PostId, UserId>
 {
-    private ParticipantEntity(UserId userId, PostId postId)
-    {
-        UserId = userId;
-        PostId = postId;
-    }
-    public UserId UserId { get; private init; }
-    public PostId PostId { get; private init; }
+    private ParticipantEntity(PostId postId, UserId userId) : base(postId, userId) { }
+
+    public PostId PostId => this.Left;  //BaseEntity protected property
+    public UserId UserId => this.Right; //BaseEntity protected property
     public bool ReceiveNotifications { get; set; }
 
     public static ParticipantEntity Create(UserId userId, PostId postId)
     {
-        var participant = new ParticipantEntity(userId, postId)
+        var participant = new ParticipantEntity(postId, userId)
         {
             ReceiveNotifications = false,
         };
+
         return participant;
     }
 }

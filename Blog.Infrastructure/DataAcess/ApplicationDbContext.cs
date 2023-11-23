@@ -3,6 +3,7 @@ using Blog.Domain.Entities.Participant;
 using Blog.Domain.Entities.Post;
 using Blog.Domain.Entities.User;
 using Blog.Domain.Entities.User.Vo;
+using Blog.Infrastructure.DataAcess.VoConverters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,27 +18,48 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, IdentityRole<U
 
     }
 
-    public DbSet<PostEntity> Posts { get; private init; }
-    public DbSet<CommentEntity> Comments { get; private init; }
-    public DbSet<ParticipantEntity> Participants { get; private init; }
+    //public DbSet<PostEntity> Posts { get; private init; }
+    //public DbSet<CommentEntity> Comments { get; private init; }
+    //public DbSet<ParticipantEntity> Participants { get; private init; }
+
 
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-        var posts = builder.Entity<PostEntity>();
-        posts.HasKey(p => p.PostId);
-        posts.HasOne(p => p.CreatorId);
-        posts.HasMany(p => p.Comments);
+        var user = builder.Entity<UserEntity>();
+        user.Property(e => e.Id).HasConversion(new UserIdConverter());
 
-        var comments = builder.Entity<CommentEntity>();
-        comments.HasKey(c => c.CommentId);
-        comments.HasOne(c => c.CreatorId);
-        comments.HasOne(c => c.PostId);
+        builder.Entity<IdentityRole<UserId>>()
+            .Property(e => e.Id)
+            .HasConversion(new UserIdConverter());
+
+        //var post = builder.Entity<PostEntity>();
+        //post.Property(e => e.Id).HasConversion(new PostIdConverter());
+        //post.Property(e => e.CreatorId).HasConversion(new UserIdConverter());
+        //post.HasKey(p => p.Id);
+        //post.HasOne(p => p.CreatorId);
+        //post.HasMany(p => p.Comments);
+
+        //var comment = builder.Entity<CommentEntity>();
+        //comment.Property(e => e.Id).HasConversion(new CommentIdConverter());
+        //comment.Property(e => e.CreatorId).HasConversion(new UserIdConverter());
+        //comment.Property(e => e.PostId).HasConversion(new PostIdConverter());
+        //comment.HasKey(c => c.Id);
+        //comment.HasOne(c => c.CreatorId);
+        //comment.HasOne(c => c.PostId);
 
 
-        var participants = builder.Entity<ParticipantEntity>();
-        participants.HasKey(p => new { p.UserId, p.PostId });
+        //var participant = builder.Entity<ParticipantEntity>();
+        //participant.Property(e => e.UserId).HasConversion(new UserIdConverter());
+        //participant.Property(e => e.PostId).HasConversion(new PostIdConverter());
+        //participant.HasKey(p => new { p.UserId, p.PostId });
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+
     }
 }

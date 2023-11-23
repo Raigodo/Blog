@@ -1,24 +1,24 @@
-﻿using Blog.Domain.Entities.Comment.Vo;
+﻿using Blog.Domain.Base;
+using Blog.Domain.Entities.Comment.Vo;
 using Blog.Domain.Entities.Post.Vo;
 using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Domain.Entities.Comment;
 
-public sealed class CommentEntity
+public sealed class CommentEntity : BaseEntity<CommentId>
 {
     private CommentEntity(
-        CommentId commentId,
+        CommentId id,
         PostId postId,
         UserId creatorId,
-        string content)
+        string content
+        ) : base(id)
     {
-        CommentId = commentId;
         PostId = postId;
         CreatorId = creatorId;
         Content = content;
     }
 
-    public CommentId CommentId { get; private init; }
     public UserId CreatorId { get; private set; }
     public PostId PostId { get; private set; }
     public string Content { get; private set; }
