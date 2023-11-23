@@ -1,7 +1,5 @@
 ﻿using Blog.Domain.Contracts.Repositories;
-using Blog.Domain.Entities.Post;
 using Blog.Domain.Entities.Post.Dto;
-using Blog.Domain.Entities.User.Vo;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 

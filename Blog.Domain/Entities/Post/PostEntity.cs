@@ -1,6 +1,7 @@
 ﻿using Blog.Domain.Base;
 using Blog.Domain.Entities.Comment;
 using Blog.Domain.Entities.Post.Vo;
+using Blog.Domain.Entities.User;
 using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Domain.Entities.Post;
@@ -23,11 +24,13 @@ public sealed class PostEntity : BaseEntity<PostId>
 
     public string Title { get; private set; } = string.Empty;
     public string Content { get; private set; } = string.Empty;
-    public UserId CreatorId { get; private set; } = null;
+    public UserId CreatorId { get; private set; } = new UserId(Guid.Empty);
     public DateTime CreatedAt { get; private set; } = default(DateTime);
     public DateTime LastEditedAt { get; private set; } = default(DateTime);
+
     public List<CommentEntity> _comments { get; private set; } = new();
     public IReadOnlyList<CommentEntity> Comments => _comments;
+    public UserEntity Creator { get; set; }
 
     public static PostEntity Create(
         string title,

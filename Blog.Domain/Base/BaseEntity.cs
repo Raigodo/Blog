@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Blog.Domain.Base;
+﻿namespace Blog.Domain.Base;
 
 public abstract class BaseEntity<Tkey> : IEquatable<BaseEntity<Tkey>>
 {

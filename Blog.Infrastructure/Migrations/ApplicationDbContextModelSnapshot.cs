@@ -22,6 +22,88 @@ namespace Blog.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Blog.Domain.Entities.Comment.CommentEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("LastEditedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("PostEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("PostEntityId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Blog.Domain.Entities.Participant.ParticipantEntity", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("ReceiveNotifications")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId", "PostId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("ParticipantEntity");
+                });
+
+            modelBuilder.Entity("Blog.Domain.Entities.Post.PostEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("LastEditedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("Blog.Domain.Entities.User.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -221,6 +303,59 @@ namespace Blog.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Blog.Domain.Entities.Comment.CommentEntity", b =>
+                {
+                    b.HasOne("Blog.Domain.Entities.User.UserEntity", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Blog.Domain.Entities.Post.PostEntity", null)
+                        .WithMany("_comments")
+                        .HasForeignKey("PostEntityId");
+
+                    b.HasOne("Blog.Domain.Entities.Post.PostEntity", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Blog.Domain.Entities.Participant.ParticipantEntity", b =>
+                {
+                    b.HasOne("Blog.Domain.Entities.Post.PostEntity", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Blog.Domain.Entities.User.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Blog.Domain.Entities.Post.PostEntity", b =>
+                {
+                    b.HasOne("Blog.Domain.Entities.User.UserEntity", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<Blog.Domain.Entities.User.Vo.UserId>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<Blog.Domain.Entities.User.Vo.UserId>", null)
@@ -270,6 +405,13 @@ namespace Blog.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Blog.Domain.Entities.Post.PostEntity", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("_comments");
                 });
 #pragma warning restore 612, 618
         }

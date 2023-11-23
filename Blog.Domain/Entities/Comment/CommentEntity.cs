@@ -1,12 +1,16 @@
 ﻿using Blog.Domain.Base;
 using Blog.Domain.Entities.Comment.Vo;
+using Blog.Domain.Entities.Post;
 using Blog.Domain.Entities.Post.Vo;
+using Blog.Domain.Entities.User;
 using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Domain.Entities.Comment;
 
 public sealed class CommentEntity : BaseEntity<CommentId>
 {
+    public CommentEntity() : base(new CommentId(Guid.Empty)) { }
+
     private CommentEntity(
         CommentId id,
         PostId postId,
@@ -19,11 +23,15 @@ public sealed class CommentEntity : BaseEntity<CommentId>
         Content = content;
     }
 
-    public UserId CreatorId { get; private set; }
-    public PostId PostId { get; private set; }
-    public string Content { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime LastEditedAt { get; private set; }
+    public UserId CreatorId { get; private set; } = new UserId(Guid.Empty);
+    public PostId PostId { get; private set; } = new PostId(Guid.Empty);
+    public string Content { get; private set; } = string.Empty;
+    public DateTime CreatedAt { get; private set; } = default(DateTime);
+    public DateTime LastEditedAt { get; private set; } = default(DateTime);
+
+    //nullable to supress warnings about null to not-null conversion
+    public UserEntity? Creator { get; set; }
+    public PostEntity? Post { get; set; }
 
     public static CommentEntity Create(
         PostId postId,
