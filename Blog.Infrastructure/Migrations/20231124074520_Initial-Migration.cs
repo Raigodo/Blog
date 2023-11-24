@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Blog.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -176,7 +176,7 @@ namespace Blog.Infrastructure.Migrations
                         column: x => x.CreatorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,7 +199,7 @@ namespace Blog.Infrastructure.Migrations
                         column: x => x.CreatorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Posts_PostEntityId",
                         column: x => x.PostEntityId,
@@ -210,32 +210,7 @@ namespace Blog.Infrastructure.Migrations
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ParticipantEntity",
-                columns: table => new
-                {
-                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReceiveNotifications = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ParticipantEntity", x => new { x.UserId, x.PostId });
-                    table.ForeignKey(
-                        name: "FK_ParticipantEntity_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ParticipantEntity_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -293,11 +268,6 @@ namespace Blog.Infrastructure.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ParticipantEntity_PostId",
-                table: "ParticipantEntity",
-                column: "PostId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Posts_CreatorId",
                 table: "Posts",
                 column: "CreatorId");
@@ -323,9 +293,6 @@ namespace Blog.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
-
-            migrationBuilder.DropTable(
-                name: "ParticipantEntity");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

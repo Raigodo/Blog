@@ -57,24 +57,6 @@ namespace Blog.Infrastructure.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Blog.Domain.Entities.Participant.ParticipantEntity", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("ReceiveNotifications")
-                        .HasColumnType("bit");
-
-                    b.HasKey("UserId", "PostId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("ParticipantEntity");
-                });
-
             modelBuilder.Entity("Blog.Domain.Entities.Post.PostEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -306,9 +288,9 @@ namespace Blog.Infrastructure.Migrations
             modelBuilder.Entity("Blog.Domain.Entities.Comment.CommentEntity", b =>
                 {
                     b.HasOne("Blog.Domain.Entities.User.UserEntity", "Creator")
-                        .WithMany()
+                        .WithMany("CreatedComments")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Blog.Domain.Entities.Post.PostEntity", null)
@@ -318,7 +300,7 @@ namespace Blog.Infrastructure.Migrations
                     b.HasOne("Blog.Domain.Entities.Post.PostEntity", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Creator");
@@ -326,31 +308,12 @@ namespace Blog.Infrastructure.Migrations
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("Blog.Domain.Entities.Participant.ParticipantEntity", b =>
-                {
-                    b.HasOne("Blog.Domain.Entities.Post.PostEntity", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Blog.Domain.Entities.User.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Blog.Domain.Entities.Post.PostEntity", b =>
                 {
                     b.HasOne("Blog.Domain.Entities.User.UserEntity", "Creator")
-                        .WithMany()
+                        .WithMany("CreatedPosts")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Creator");
@@ -412,6 +375,13 @@ namespace Blog.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("_comments");
+                });
+
+            modelBuilder.Entity("Blog.Domain.Entities.User.UserEntity", b =>
+                {
+                    b.Navigation("CreatedComments");
+
+                    b.Navigation("CreatedPosts");
                 });
 #pragma warning restore 612, 618
         }

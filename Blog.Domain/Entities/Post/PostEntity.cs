@@ -30,7 +30,7 @@ public sealed class PostEntity : BaseEntity<PostId>
 
     public List<CommentEntity> _comments { get; private set; } = new();
     public IReadOnlyList<CommentEntity> Comments => _comments;
-    public UserEntity Creator { get; set; }
+    public UserEntity? Creator { get; set; }
 
     public static PostEntity Create(
         string title,

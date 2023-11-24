@@ -1,4 +1,5 @@
 ﻿using Blog.Domain.Contracts.Repositories;
+using Blog.Domain.Entities.User;
 using Blog.Infrastructure.DataAcess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,8 +31,8 @@ public static class DatabaseServiceRegistrationExtensions
                 connectionString,
                 options => options.MigrationsAssembly("Blog.Infrastructure"));
         });
-        //services.AddIdentityCore<UserEntity>()
-        //    .AddEntityFrameworkStores<ApplicationDbContext>();
+        services.AddIdentityCore<UserEntity>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
         return services;
     }
 }

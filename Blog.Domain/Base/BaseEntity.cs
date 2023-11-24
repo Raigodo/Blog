@@ -18,15 +18,15 @@ public abstract class BaseEntity<Tkey> : IEquatable<BaseEntity<Tkey>>
 
 public abstract class BaseEntity<Tkey1, Tkey2> : IEquatable<BaseEntity<Tkey1, Tkey2>>
 {
-    protected BaseEntity(Tkey1 left, Tkey2 right)
+    protected BaseEntity(Tkey1 leftKey, Tkey2 rightKey)
     {
-        Left = left;
-        Right = right;
+        _leftKey = leftKey;
+        _rightKey = rightKey;
     }
 
     //for better convenience, create custom getter with better naming
-    protected Tkey1 Left { get; private init; }
-    protected Tkey2 Right { get; private init; }
+    protected Tkey1 _leftKey { get; private init; }
+    protected Tkey2 _rightKey { get; private init; }
 
 
     public bool Equals(BaseEntity<Tkey1, Tkey2>? other)
