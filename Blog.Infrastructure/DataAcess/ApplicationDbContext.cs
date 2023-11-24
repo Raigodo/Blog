@@ -20,7 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, IdentityRole<U
 
     public DbSet<PostEntity> Posts { get; private init; }
     public DbSet<CommentEntity> Comments { get; private init; }
-    //public DbSet<ParticipantEntity> Participants { get; private init; }
+    public DbSet<ParticipantEntity> Participants { get; private init; }
 
 
 
@@ -38,9 +38,8 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, IdentityRole<U
 
 
         var post = builder.Entity<PostEntity>();
+
         post.HasKey(p => p.Id);
-        post.Property(e => e.Id).HasConversion(new PostIdConverter());
-        post.Property(e => e.CreatorId).HasConversion(new UserIdConverter());
         post.HasOne(p => p.Creator)
             .WithMany(u => u.CreatedPosts)
             .OnDelete(DeleteBehavior.Restrict);
@@ -48,13 +47,14 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, IdentityRole<U
             .WithOne(c => c.Post)
             .OnDelete(DeleteBehavior.Restrict);
 
+        post.Property(e => e.Id).HasConversion(new PostIdConverter());
+        post.Property(e => e.CreatorId).HasConversion(new UserIdConverter());
+
 
 
         var comment = builder.Entity<CommentEntity>();
+
         comment.HasKey(c => c.Id);
-        comment.Property(c => c.Id).HasConversion(new CommentIdConverter());
-        comment.Property(c => c.CreatorId).HasConversion(new UserIdConverter());
-        comment.Property(c => c.PostId).HasConversion(new PostIdConverter());
         comment.HasOne(c => c.Creator)
             .WithMany(u => u.CreatedComments)
             .OnDelete(DeleteBehavior.Restrict);
@@ -62,12 +62,25 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, IdentityRole<U
             .WithMany(p => p.Comments)
             .OnDelete(DeleteBehavior.Restrict);
 
+        comment.Property(c => c.Id)
+            .HasConversion(new CommentIdConverter());
+        comment.Property(c => c.CreatorId)
+            .HasConversion(new UserIdConverter());
+        comment.Property(c => c.PostId)
+            .HasConversion(new PostIdConverter());
 
-        //var participant = builder.Entity<ParticipantEntity>();
-        //participant.HasKey(p => new { p.UserId, p.PostId });
-        //participant.HasOne(p => p.User);
-        //participant.HasOne(p => p.Post);
-        //participant.Property(e => e.UserId).HasConversion(new UserIdConverter());
-        //participant.Property(e => e.).HasConversion(new PostIdConverter());
+
+        //LeftKey : PostId
+        //RightKey : UserId
+        var participant = builder.Entity<ParticipantEntity>();
+
+        participant.HasKey(p => new { p.LeftKey, p.RightKey });
+        participant.HasOne(p => p.User);
+        participant.HasOne(p => p.Post);
+
+        participant.Property(p => p.LeftKey)
+            .HasConversion(new PostIdConverter());
+        participant.Property(p => p.RightKey)
+            .HasConversion(new UserIdConverter());
     }
 }

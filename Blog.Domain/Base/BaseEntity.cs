@@ -1,4 +1,6 @@
-﻿namespace Blog.Domain.Base;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Blog.Domain.Base;
 
 public abstract class BaseEntity<Tkey> : IEquatable<BaseEntity<Tkey>>
 {
@@ -20,13 +22,13 @@ public abstract class BaseEntity<Tkey1, Tkey2> : IEquatable<BaseEntity<Tkey1, Tk
 {
     protected BaseEntity(Tkey1 leftKey, Tkey2 rightKey)
     {
-        _leftKey = leftKey;
-        _rightKey = rightKey;
+        LeftKey = leftKey;
+        RightKey = rightKey;
     }
 
     //for better convenience, create custom getter with better naming
-    protected Tkey1 _leftKey { get; private init; }
-    protected Tkey2 _rightKey { get; private init; }
+    public Tkey1 LeftKey { get; private init; }
+    public Tkey2 RightKey { get; private init; }
 
 
     public bool Equals(BaseEntity<Tkey1, Tkey2>? other)

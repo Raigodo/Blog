@@ -17,13 +17,13 @@ public sealed class ParticipantEntity : BaseEntity<PostId, UserId>
 
     private ParticipantEntity(PostId postId, UserId userId) : base(postId, userId) { }
 
-    public PostId PostId => this._leftKey;  //BaseEntity protected property
-    public UserId UserId => this._rightKey; //BaseEntity protected property
+    //public PostId PostId => this.LeftKey;  //BaseEntity protected property
+    //public UserId UserId => this.RightKey; //BaseEntity protected property
     public bool ReceiveNotifications { get; set; }
 
     //nullable to supress warnings about null to not-null conversion
-    public PostEntity? Post { get; set; }
-    public UserEntity? User { get; set; }
+    public PostEntity? Post { get; private set; }
+    public UserEntity? User { get; private set; }
 
     public static ParticipantEntity Create(UserId userId, PostId postId)
     {
