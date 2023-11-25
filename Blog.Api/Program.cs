@@ -4,8 +4,8 @@ using Blog.Infrastructure.DataAcess;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDatabase(builder.Configuration.GetConnectionString("Default"));
-//builder.Services.AddRepositories();
+builder.Services.AddDatabase();
+builder.Services.AddRepositories();
 builder.Services.AddValidators();
 
 builder.Services.AddControllers();
