@@ -1,6 +1,7 @@
 ﻿using Blog.Domain.Contracts.Repositories;
 using Blog.Domain.Entities.Post;
 using Blog.Domain.Entities.Post.Vo;
+using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Infrastructure.DataAcess.Repositories;
 
@@ -13,18 +14,23 @@ public class PostRepository : IPostRepository
         _dbCtx = dbCtx;
     }
 
-    public async Task DeleteAsync(PostId postId)
+    public Task DeleteAsync(PostId postId)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<PostEntity> GetAsync(PostId postId)
+    public Task<IEnumerable<PostEntity>> GetAllAsync(UserId userId)
     {
         throw new NotImplementedException();
     }
 
-    public async Task SaveChangesAsync()
+    public Task<PostEntity> GetAsync(PostId postId)
     {
-        await _dbCtx.SaveChangesAsync();
+        throw new NotImplementedException();
+    }
+
+    public Task SaveChangesAsync()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Blog.Domain.Contracts.Repositories;
 using Blog.Domain.Entities.Comment;
 using Blog.Domain.Entities.Comment.Vo;
+using Blog.Domain.Entities.Post.Vo;
+using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Infrastructure.DataAcess.Repositories;
 
@@ -13,18 +15,28 @@ public class CommentRepository : ICommentRepository
         _dbCtx = dbCtx;
     }
 
-    public async Task DeleteAsync(CommentId commentId)
+    public Task DeleteAsync(CommentId commentId)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<CommentEntity> GetAsync(CommentId commentId)
+    public Task<IEnumerable<CommentEntity>> GetAll(PostId postId)
     {
         throw new NotImplementedException();
     }
 
-    public async Task SaveChangesAsync()
+    public Task<IEnumerable<CommentEntity>> GetAll(UserId postId)
     {
-        await _dbCtx.SaveChangesAsync();
+        throw new NotImplementedException();
+    }
+
+    public Task<CommentEntity> GetAsync(CommentId commentId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SaveChangesAsync()
+    {
+        throw new NotImplementedException();
     }
 }

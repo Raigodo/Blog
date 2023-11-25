@@ -1,5 +1,6 @@
 ﻿using Blog.Domain.Contracts.Repositories;
 using Blog.Domain.Entities.Participant;
+using Blog.Domain.Entities.Post;
 using Blog.Domain.Entities.Post.Vo;
 using Blog.Domain.Entities.User.Vo;
 
@@ -14,18 +15,23 @@ public class ParticipantRepository : IParticipantRepository
         _dbCtx = dbCtx;
     }
 
-    public async Task DeleteAsync(UserId userId, PostId postId)
+    public Task DeleteAsync(UserId userId, PostId postId)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<ParticipantEntity> GetAsync(UserId userId, PostId postId)
+    public Task<IEnumerable<PostEntity>> GetAllAsync(PostId postId)
     {
         throw new NotImplementedException();
     }
 
-    public async Task SaveChangesAsync()
+    public Task<ParticipantEntity> GetAsync(UserId userId, PostId postId)
     {
-        await _dbCtx.SaveChangesAsync();
+        throw new NotImplementedException();
+    }
+
+    public Task SaveChangesAsync()
+    {
+        throw new NotImplementedException();
     }
 }
