@@ -1,31 +1,36 @@
-﻿using Blog.Domain.Entities.Comment;
+﻿using Blog.Domain.Base;
+using Blog.Domain.Entities.Comment;
 using Blog.Domain.Entities.Post.Vo;
+using Blog.Domain.Entities.User;
 using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Domain.Entities.Post;
 
-public sealed class PostEntity
+public sealed class PostEntity : BaseEntity<PostId>
 {
+    public PostEntity() : base(new PostId(Guid.Empty)) { }
+
     private PostEntity(
-        PostId postId,
+        PostId id,
         string title,
         string content,
-        UserId creatorId)
+        UserId creatorId
+        ) : base(id)
     {
-        PostId = postId;
         Title = title;
         Content = content;
         CreatorId = creatorId;
     }
 
-    public PostId PostId { get; private init; }
-    public string Title { get; private set; }
-    public string Content { get; private set; }
-    public UserId CreatorId { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime LastEditedAt { get; private set; }
+    public string Title { get; private set; } = string.Empty;
+    public string Content { get; private set; } = string.Empty;
+    public UserId CreatorId { get; private set; } = new UserId(Guid.Empty);
+    public DateTime CreatedAt { get; private set; } = default(DateTime);
+    public DateTime LastEditedAt { get; private set; } = default(DateTime);
+
     public List<CommentEntity> _comments { get; private set; } = new();
-    public IReadOnlyList<CommentEntity> Comments { get => _comments; }
+    public IReadOnlyList<CommentEntity> Comments => _comments;
+    public UserEntity? Creator { get; set; }
 
     public static PostEntity Create(
         string title,
@@ -58,7 +63,7 @@ public sealed class PostEntity
 
     public void AddComment(UserId commentator, string content)
     {
-        var comment = CommentEntity.Create(PostId, commentator, content);
+        var comment = CommentEntity.Create(Id, commentator, content);
         _comments.Add(comment);
     }
 }
