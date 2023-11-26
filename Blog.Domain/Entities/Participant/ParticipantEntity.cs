@@ -3,17 +3,16 @@ using Blog.Domain.Entities.Post;
 using Blog.Domain.Entities.Post.Vo;
 using Blog.Domain.Entities.User;
 using Blog.Domain.Entities.User.Vo;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
 
 namespace Blog.Domain.Entities.Participant;
 
 public sealed class ParticipantEntity : BaseEntity<PostId, UserId>
 {
-    public ParticipantEntity() 
+    public ParticipantEntity()
         : base(
             new PostId(Guid.Empty),
-            new UserId(Guid.Empty)) { }
+            new UserId(Guid.Empty))
+    { }
 
     private ParticipantEntity(PostId postId, UserId userId) : base(postId, userId) { }
 

@@ -1,3 +1,4 @@
+using Blog.Api.ExceptionHandling;
 using Blog.Application;
 using Blog.Infrastructure.DataAcess;
 
@@ -24,6 +25,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseExceptionMiddleware();
 
 app.MapControllers();
 

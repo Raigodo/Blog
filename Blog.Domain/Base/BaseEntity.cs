@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Blog.Domain.Base;
+﻿namespace Blog.Domain.Base;
 
 //entity with single primary key
 public abstract class BaseEntity<Tkey> : IEquatable<BaseEntity<Tkey>>
