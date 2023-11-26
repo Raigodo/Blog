@@ -31,8 +31,6 @@ public static class DatabaseServiceRegistrationExtensions
                 connectionString,
                 options => options.MigrationsAssembly("Blog.Infrastructure"));
         });
-        services.AddIdentityCore<UserEntity>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
         return services;
     }
 }

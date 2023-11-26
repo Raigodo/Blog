@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers;
 
-[Route("api/post/{PostId:guid}/[controller]")]
+[Route("api/post/{PostId:guid}/comments")]
 [ApiController]
 public class CommentsController : ControllerBase
 {

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Blog.Domain.Entities.User;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blog.Application;
@@ -10,4 +11,5 @@ public static class ServiceRegisrationExtensions
         services.AddValidatorsFromAssemblyContaining<IValidatorAssemblyMarker>();
         return services;
     }
+
 }

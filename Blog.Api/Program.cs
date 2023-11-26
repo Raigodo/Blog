@@ -1,14 +1,17 @@
-using Blog.Api.ExceptionHandling;
+using Blog.Api;
 using Blog.Application;
+using Blog.Application.Services;
 using Blog.Infrastructure.DataAcess;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDatabase(builder.Configuration.GetConnectionString("Default"));
-//builder.Services.AddRepositories();
+builder.Services.AddRepositories();
+builder.Services.AddApplicationServices();
 builder.Services.AddValidators();
 
+builder.Services.AddCookieAuthentication();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 

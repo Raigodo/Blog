@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blog.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class PostController : ControllerBase
+    [Route("api/posts/")]
+    public class PostsController : ControllerBase
     {
-        public PostController(IPostRepository postRepository)
+        public PostsController(IPostRepository postRepository)
         {
             _postRepository = postRepository;
         }

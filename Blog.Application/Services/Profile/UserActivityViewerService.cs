@@ -4,7 +4,7 @@ using Blog.Domain.Entities.User.Vo;
 
 namespace Blog.Application.Services.Profile;
 
-public sealed class UserActivityService
+public sealed class UserActivityViewerService
 {
     public IEnumerable<CommentEntity> GetUserComments(UserId issuerId, UserId userId)
     {
